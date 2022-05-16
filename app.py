@@ -36,8 +36,11 @@ def root():
 
 @app.route('/api/execute_scraper', methods = ["GET"])
 def execute_scraper():
-    os.system("python ./app/bot.py")
-    return jsonify({"message": "bot executed"})
+    try:
+        os.system("python ./app/bot.py")
+        return jsonify({"message": "bot executed"})
+    except Exception as e:
+        return jsonify({"error": print(e)})
 
 if __name__ == '__main__':
     print("PORT: ", 9100)

@@ -153,12 +153,12 @@ def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
     age = getAge(driver)
 
     # Upload ad in database.
-    res = client.insert_ad(author, language, link, id_page, title, text, category, first_post_date, date_scrap, website, phone, country, region, city, place, email, verified_ad, prepayment, promoted_ad, external_website,
+    status_code = client.insert_ad(author, language, link, id_page, title, text, category, first_post_date, date_scrap, website, phone, country, region, city, place, email, verified_ad, prepayment, promoted_ad, external_website,
             reviews_website, comments, latitude, longitude, ethnicity, nationality, age) # Eliminar luego
-    status_code = res.status_code
+    #status_code = res.status_code
 
     print(status_code)
-    print(res.text)
+    #print(res.text)
     if status_code != 200: 
         print("Algo salió mal...")
     else: 

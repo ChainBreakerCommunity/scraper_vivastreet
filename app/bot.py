@@ -160,10 +160,13 @@ def main(constants):
         # Return the menu.
         #driver.get(constants.PAGINATION + str(page))
         # Change pagination with button.
-        elements = driver.find_elements_by_class_name("kiwii-btn")
-        for ele in elements: 
-            if ele.text == "»":
-                ele.click()
+        try:
+            elements = driver.find_elements_by_class_name("kiwii-btn")
+            for ele in elements: 
+                if ele.text == "»":
+                    ele.click()
+        except:
+            continue
     driver.quit()
                 
 if __name__ == "__main__":

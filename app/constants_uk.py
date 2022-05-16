@@ -6,5 +6,5 @@ SITE = "https://www.vivastreet.co.uk/escort/gb"
 COUNTRY_PREFIX = "+44"
 PAGINATION = "https://search.vivastreet.ie/escort/gb/t+"
 LANGUAGE = "english"
-MAX_PAGES = 10
+MAX_PAGES = 50
 CATEGORY = "escorts"

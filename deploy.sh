@@ -45,7 +45,7 @@ git commit -m "$parameterA"
 if [ $parameterB == 'yes' ]
 then
    heroku login
-   heroku git:clone -a cb-scraper-vivastreet
+   heroku git:remote -a cb-scraper-vivastreet
    #git push heroku
 fi
 

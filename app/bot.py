@@ -73,7 +73,7 @@ def main(constants):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    
+    # c
     wait = WebDriverWait(driver, 10)
     #driver = webdriver.Remote(selenium_endpoint, desired_capabilities=DesiredCapabilities.FIREFOX)
     enterVivaStreet(constants, driver)

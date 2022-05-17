@@ -42,6 +42,10 @@ def execute_scraper():
     except Exception as e:
         return jsonify({"error": print(e)})
 
+@app.route('/api/get_logs', methods = ["GET"])
+def get_logs():
+    return send_from_directory("app", "app.log")
+
 if __name__ == '__main__':
     print("PORT: ", 9100)
     app.run(port = 9100, debug=True)

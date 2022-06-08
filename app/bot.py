@@ -46,9 +46,9 @@ def main(constants):
     password = data["password"]
     selenium_endpoint = data["selenium_endpoint"]
     
-    logging.warning("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
-    print("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
-    sys.stdout.flush()
+    #logging.warning("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
+    #print("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
+    #sys.stdout.flush()
 
     client = ChainBreakerScraper(endpoint)
     print("Trying to login now")
@@ -65,14 +65,14 @@ def main(constants):
 
     # Crear driver.
     print("Open Chrome")
-    #driver = webdriver.Chrome(executable_path="../test/chromedriver.exe")
+    driver = webdriver.Chrome(executable_path="../test/chromedriver.exe")
     
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    #chrome_options = webdriver.ChromeOptions()
+    #chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    #chrome_options.add_argument("--headless")
+    #chrome_options.add_argument("--disable-dev-shm-usage")
+    #chrome_options.add_argument("--no-sandbox")
+    #driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     # c
     wait = WebDriverWait(driver, 10)
     #driver = webdriver.Remote(selenium_endpoint, desired_capabilities=DesiredCapabilities.FIREFOX)

@@ -23,4 +23,5 @@ def execute_scraper():
     return jsonify({"message": "bot executed"}), 200
 
 if __name__ == '__main__':
-    app.run(port = config["PORT"], debug = bool(config["DEBUG"]))
+    debug = (config["DEBUG"] == "TRUE")
+    app.run(port = config["PORT"], debug = debug)

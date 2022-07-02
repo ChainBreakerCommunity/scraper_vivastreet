@@ -63,7 +63,7 @@ def main(constants):
     # Crear driver.
     print("Open Chrome")
 
-    if bool(config["DEBUG"]) == True:
+    if config["DEBUG"] == "TRUE":
         driver = webdriver.Chrome(executable_path="./chromedriver.exe")
     else:
         chrome_options = webdriver.ChromeOptions()

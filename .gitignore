@@ -2,9 +2,6 @@
 /chromedriver.exe
 test
 
-# Ignore executable
-app/chromedriver.exe
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -39,7 +39,7 @@ def enterVivaStreet(constants, driver: webdriver):
     search_button.click()
 
 def main(constants):
-    endpoint = config["ENDPOINT_TEST"]
+    endpoint = config["ENDPOINT"]
     user = config["USERNAME"]
     password = config["PASSWORD"]
 

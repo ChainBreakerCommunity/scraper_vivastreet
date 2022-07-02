@@ -9,3 +9,6 @@ def get_config():
     else:
         config = os.environ
         return config
+
+if __name__ == "__main__":
+    print(get_config())

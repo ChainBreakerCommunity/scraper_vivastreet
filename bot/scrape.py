@@ -1,9 +1,11 @@
 import datetime
 from chainbreaker_api import ChainBreakerScraper
 from selenium.webdriver.common.by import By
-import logging
 import selenium
 import sys 
+from logger.logger import get_logger
+logger = get_logger(__name__, level = "DEBUG", stream = True)
+
 
 def clean_string(string, no_space = False):   
     """
@@ -115,9 +117,7 @@ def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
     phone = getCellphone(constants, driver)
     email = ""
     if phone == None:
-        logging.warning("Phone not found! Skipping this ad.")
-        print("Phone not found! Skipping this ad.")
-        sys.stdout.flush()
+        logger.warning("Phone not found! Skipping this ad.")
         return None
     
     author = constants.AUTHOR

@@ -1,23 +1,22 @@
-###################################
-###        VIVA STREET          ###
-###################################
 import time
 import bot.constants_uk
 import bot.constants_ireland
 import bot.scrape
 import sys
-import logging
 import warnings
 from chainbreaker_api import ChainBreakerScraper
+import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from utils.env import get_config
 config = get_config()
+
+from logger.logger import get_logger
+logger = get_logger(__name__, level = "DEBUG", stream = True)
 
 #from dotenv import dotenv_values
 #debug_config = dotenv_values(".env.development")
@@ -48,20 +47,15 @@ def main(constants):
     #sys.stdout.flush()
 
     client = ChainBreakerScraper(endpoint)
-    print("Trying to login now")
+    logger.info("Trying to login now")
     res = client.login(user, password)
     if type(res) != str:
-        logging.critical("Login was not successful.")
-        print("Login was not successful.")
-        sys.stdout.flush()
+        logger.critical("Login was not successful.")
         sys.exit()
     else: 
-        logging.warning("Login was successful.")
-        print("Login was successful.")
-        sys.stdout.flush()
-
+        logger.warning("Login was successful.")
     # Crear driver.
-    print("Open Chrome")
+    logger.info("Open Chrome")
 
     if config["DEBUG"] == "TRUE":
         driver = webdriver.Chrome(executable_path="./chromedriver.exe")
@@ -80,32 +74,31 @@ def main(constants):
 
     # Page lists.
     for page in range(2, constants.MAX_PAGES + 1):
-        logging.warning("# Page: " + str(page))
-        print("# Page: " + str(page))
-        sys.stdout.flush()
-    
+        logger.warning("# Page: " + str(page))
+
         # Get list of ads.
+        time.sleep(3)
         ads = driver.find_elements(By.CLASS_NAME, "clad")
         # Iterate over ads.
         for ad in ads:
-            url = ad.find_element(By.CLASS_NAME, "clad__ad_link").get_attribute("href") 
+            try:
+                url = ad.find_element(By.CLASS_NAME, "clad__ad_link").get_attribute("href") 
+            except:
+                logger.error("Couldnt find class name: clad__ad_link")
+                continue
             
             if client.get_status() != 200:
-                logging.error("Endpoint is offline. Service stopped.", exc_info = True)
+                logger.error("Endpoint is offline. Service stopped.", exc_info = True)
                 driver.quit()
                 sys.exit()
             info_ad = constants.SITE_NAME + ", #ad " + str(count_announcement) + ", page_link " + url
             id_ad = ad.get_attribute("data-clad-id") 
 
             if client.does_ad_exist(id_ad, constants.SITE_NAME, constants.COUNTRY):
-                logging.warning("Ad already in database. Link: " + url)
-                print("Ad already in database. Link: " + url)
-                sys.stdout.flush()
+                logger.warning("Ad already in database. Link: " + url)
                 continue
             else:
-                logging.warning("New Ad. " + info_ad)
-                print("New Ad. " + info_ad)
-                sys.stdout.flush()
+                logger.warning("New Ad. " + info_ad)
 
             region, city, place = bot.scrape.getLocation(ad)
             isFeature = bot.scrape.isFeature(ad)
@@ -130,9 +123,7 @@ def main(constants):
             # Load ad in the new window.
             driver.get(url)
 
-            logging.warning("Ad correctly loaded.")
-            print("Ad correctly loaded.")
-            sys.stdout.flush()
+            logger.warning("Ad correctly loaded.")
 
             # Save values in dictionary.
             dicc = {}

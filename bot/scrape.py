@@ -157,11 +157,12 @@ def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
             external_website, reviews_website, comments, latitude, longitude, ethnicity, nationality, age) # Eliminar luego
     #status_code = res.status_code
 
-    print("Data sent to server: ")
-    print(data)
-    print(res.status_code)
+    # Log results.
+    logger.info("Data sent to server: ")
+    logger.info(data)
+    logger.info(res.status_code)
     #print(res.text)
     if res.status_code != 200: 
-        print("Algo salió mal...")
+        logger.error("Algo salió mal...")
     else: 
-        print("Éxito!")
+        logger.info("Éxito!")

@@ -6,6 +6,8 @@ import sys
 from logger.logger import get_logger
 logger = get_logger(__name__, level = "DEBUG", stream = True)
 
+import ipfshttpclient
+ipfs_client = ipfshttpclient.connect('/dns/ipfs.infura.io/tcp/5001/https')
 
 def clean_string(string, no_space = False):   
     """
@@ -94,22 +96,11 @@ def getCellphone(constants, driver: selenium.webdriver) -> str:
 def getDateScrap() -> datetime.datetime:
     return datetime.date.today()
 
-def isVerified(ad: selenium.webdriver.remote.webelement.WebElement) -> str: 
-    try:
-        ad.find_element(By.CLASS_NAME, "verified-badge")
-        return "1"
-    except: 
-        return "0"
-
-def isFeature(ad: selenium.webdriver.remote.webelement.WebElement) -> str:
-    try:
-        ad.find_element(By.CLASS_NAME, "label-badge-featured")
-        return "1"
-    except: 
-        return "0"
-    #if label.text == "FEATURED":
-    #    promoted_ad = "1"
-    #return promoted_ad
+def getScreenshot(driver: selenium.webdriver):
+    driver.execute_script("window.scrollTo(0,0)")
+    driver.save_screenshot("ss.png")
+    res = ipfs_client.add("ss.png")
+    return res["Hash"]
 
 def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
     
@@ -132,9 +123,6 @@ def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
     date_scrap = getDateScrap()
     website = constants.SITE_NAME
 
-    verified_ad = dicc["isVerified"]
-    prepayment = ""
-    promoted_ad = dicc["isFeature"]
     external_website = ""
     reviews_website = ""
     country = constants.COUNTRY 
@@ -151,10 +139,11 @@ def scrap_ad_link(constants, client: ChainBreakerScraper, driver, dicc: dict):
     nationality = temp_value[1]
 
     age = getAge(driver)
+    screenshot = getScreenshot(driver)
 
     # Upload ad in database.
-    data, res = client.insert_ad(author, language, link, id_page, title, text, category, first_post_date, date_scrap, website, phone, country, region, city, place, email, verified_ad, prepayment, promoted_ad, 
-            external_website, reviews_website, comments, latitude, longitude, ethnicity, nationality, age) # Eliminar luego
+    data, res = client.insert_ad(author, language, link, id_page, title, text, category, first_post_date, date_scrap, website, phone, country, region, city, place, email, 
+            external_website, reviews_website, comments, latitude, longitude, ethnicity, nationality, age, screenshot) # Eliminar luego
     #status_code = res.status_code
 
     # Log results.

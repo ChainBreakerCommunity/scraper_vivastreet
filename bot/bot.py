@@ -101,8 +101,6 @@ def main(constants):
                 logger.warning("New Ad. " + info_ad)
 
             region, city, place = bot.scrape.getLocation(ad)
-            isFeature = bot.scrape.isFeature(ad)
-            isVerified = bot.scrape.isVerified(ad)
 
             # Enter to the ad.
             original_window = driver.current_window_handle
@@ -132,8 +130,6 @@ def main(constants):
             dicc["place"] = place
             dicc["id_ad"] = id_ad
             dicc["url"] = url
-            dicc["isFeature"] = isFeature
-            dicc["isVerified"] = isVerified
 
             # Scrap ad.
             ad_record = bot.scrape.scrap_ad_link(constants, client, driver, dicc)

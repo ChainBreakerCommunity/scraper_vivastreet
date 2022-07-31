@@ -1,6 +1,7 @@
 # Ignore directories
 /chromedriver.exe
 test
+ss.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

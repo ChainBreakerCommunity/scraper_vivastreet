@@ -6,7 +6,7 @@ import sys
 import warnings
 from chainbreaker_api import ChainBreakerScraper
 import time
-
+import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -38,9 +38,13 @@ def enterVivaStreet(constants, driver: webdriver):
     search_button.click()
 
 def main(constants):
+
+    start_time = datetime.datetime.now()
+    
     endpoint = config["ENDPOINT"]
     user = config["USERNAME"]
     password = config["PASSWORD"]
+    max_time = config["MAX_TIME"]
 
     #logging.warning("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
     #print("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
@@ -81,6 +85,15 @@ def main(constants):
         ads = driver.find_elements(By.CLASS_NAME, "clad")
         # Iterate over ads.
         for ad in ads:
+
+            # Check time limit.
+            current_time = datetime.datetime.now()
+            delta = current_time - start_time
+            sec = delta.total_seconds()
+            mins = sec / 60
+            if mins >= max_time:
+                sys.exit()
+
             try:
                 url = ad.find_element(By.CLASS_NAME, "clad__ad_link").get_attribute("href") 
             except:

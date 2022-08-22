@@ -44,7 +44,7 @@ def main(constants):
     endpoint = config["ENDPOINT"]
     user = config["USERNAME"]
     password = config["PASSWORD"]
-    max_time = config["MAX_TIME"]
+    max_time = int(config["MAX_TIME"])
 
     #logging.warning("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)
     #print("Parameters passed to scraper: " + endpoint + ", " + user + ", " + password)

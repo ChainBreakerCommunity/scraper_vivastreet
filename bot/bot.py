@@ -25,7 +25,7 @@ warnings.filterwarnings("ignore")
 
 def enterVivaStreet(constants, driver: webdriver):
     driver.get(constants.SITE)
-    logger.info("Current URL: ", driver.current_url)
+    logger.info("Current URL: " + str(driver.current_url))
     #WebDriverWait(driver, timeout=10).until(EC.presence_of_element_located((By.ID, "accept-disclaimer")))
     time.sleep(5)
     
